@@ -23,7 +23,7 @@ void Client::run() {
 			char *message = (char*)malloc(messageSize + 1);
 			protocol.recvString(message, messageSize);
 			std::cout << message << std::endl;
-			if (strcmp(message, "GANASTE") == 0 || strcmp(message, "PERDISTE") == 0) {
+			if (strcmp(message, "Ganaste") == 0 || strcmp(message, "Perdiste") == 0) {
 				finish = true;
 			}
 			free(message);
