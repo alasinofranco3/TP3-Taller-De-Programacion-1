@@ -27,7 +27,7 @@ void Server::run() {
 }
 
 void Server::printResults() const {
-	std::cout << "Estadísticas: \n\tGanadores:  " << winners.get(); 
+	std::cout << "Estadisticas: \n\tGanadores:  " << winners.get(); 
 	std::cout << "\n\tPerdedores: " << losers.get() << std::endl;
 }
 
