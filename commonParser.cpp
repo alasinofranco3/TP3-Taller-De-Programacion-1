@@ -1,6 +1,8 @@
 #include "commonParser.h"
+#include <string>
+#include <vector>
 
-Parser::Parser(std::string fileName, std::list<std::string> *answers) {
+Parser::Parser(std::string fileName, std::vector<std::string> *answers) {
 	file.open(fileName);
 	numbers = answers;
 }

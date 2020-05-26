@@ -1,4 +1,5 @@
 #include "commonProtocol.h"
+#include <string>
 
 Protocol::Protocol() {}
 
@@ -14,22 +15,24 @@ bool Protocol::validCommand(const std::string command) const {
 	try {
 		if (command != "AYUDA" && command != "RENDIRSE" && 
 			stoi(command) > (pow(2, 16) - 1)) {	
+			//comparamos el comando con el numero maximo que podemos 
+			//representar en 2 bytes, 2^16 - 1
 			return false;
 		}
 		return true;
-	} catch (const std::exception &e) {
+	} catch(const std::exception &e) {
 		return false;
 	}
 }
 
-bool Protocol::validNumber(unsigned short int number) {
+bool Protocol::validNumber(unsigned short int number) const{
 	if (number < 100 || number > 999 || repeatedDigitNumber(number)) {
 		return false;		
 	}
 	return true;
 }
 
-bool Protocol::repeatedDigitNumber(unsigned short int number) {
+bool Protocol::repeatedDigitNumber(unsigned short int number) const{
 	int firstDigit, secondDigit, ThirdDigit;
 	ThirdDigit = number % 10;
 	number /= 10; 
@@ -47,6 +50,7 @@ void Protocol::sendCommand(const std::string command) const {
 	} else if (command == "RENDIRSE") {
 		skt.send("s", 1);
 	} else {
+		//Paso el comando a entero
 		unsigned short int number = (unsigned short int)stoi(command);
 		number = htons(number); // Lo paso a big endian
 
@@ -54,11 +58,12 @@ void Protocol::sendCommand(const std::string command) const {
 		message [0] = 'n';
 		unsigned short int* p = (unsigned short int *)(message + 1);
 		*p = number;
+		//Envio el comando
 		skt.send(message, 3);
 	}
 }
 
-void Protocol::sendString(const char* string) {
+void Protocol::sendString(const char* string) const{
 	unsigned int stringLen = strlen(string);
 	//ademas del string se envia un int con su longitud
 	char *message = (char*)malloc(stringLen + sizeof(int)); 
@@ -72,23 +77,26 @@ void Protocol::sendString(const char* string) {
 	free(message);
 }
 
-void Protocol::recvCommand(char* buffer) {
+void Protocol::recvCommand(char* buffer) const {
 	skt.recv(buffer, 1); //El comando se envia en 1 byte
  }
 
-unsigned short int Protocol::recvNumber() {
+unsigned short int Protocol::recvNumber() const {
 	char numberStr[2]; //Es de dos bytes
 	skt.recv(numberStr, 2); //Los numeros vienen en 2 bytes
 	unsigned short int number = *(unsigned short int *)numberStr;
+	//Lo paso a mi endianness local
 	number = ntohs(number);
 	return number;
 }
 
 unsigned int Protocol::recvStringSize() const{
+	//El tamanio del string se pasa en un int
 	char messageSizeStr [sizeof(int)];
 	skt.recv(messageSizeStr, sizeof(int));
 	
 	unsigned int messageSize = *(unsigned int*)messageSizeStr;
+	//Lo paso all endianness local
 	messageSize = ntohl(messageSize);
 	return messageSize;
 }
@@ -99,13 +107,17 @@ void Protocol::recvString(char* message, int size) const{
 }
 
 void Protocol::processNumber(unsigned short number, 
-	std::string answer, int* c, int *a) {
+	std::string answer, int* c, int *a) const {
+	//Lo inicializo con 3 digitos cualesquiera,no tienen relevancia
 	std::string digits = "abc";
+	//voy guardando los digitos del numero en el string digits
+	//en la pos 0 queda el digito mas significativo
 	for (int i = 2; i >= 0; i--) {
 		digits[i] = (char)((number % 10) + 48);
 		number /= 10; 
 	}
-
+	//Voy comparando los dijistos del numero ingresado con los
+	//digitos de la respuesta
 	for (int i = 0; i < 3; i ++) {
 		if (digits[i] == answer[i]) {
 			(*c) ++;
@@ -115,7 +127,7 @@ void Protocol::processNumber(unsigned short number,
 	}
 }
 
-char Protocol::processResults(int correct, int almost, const int tries) {
+char Protocol::processResults(int correct, int almost, const int tries) const {
 	//A los enteros les sumo 48 para agregar al mensaje el simbolo ascii 
 	//correspondiente a su valor numerico
 	std::string message;
@@ -123,7 +135,7 @@ char Protocol::processResults(int correct, int almost, const int tries) {
 		this->sendString("GANASTE");
 		return 'W';
 	} else if (correct > 0 && almost > 0) {
-		message.push_back(correct + 48) ;
+		message.push_back(correct + 48);
 		message += " bien, ";
 		message.push_back(almost + 48);
 		message += " regular";

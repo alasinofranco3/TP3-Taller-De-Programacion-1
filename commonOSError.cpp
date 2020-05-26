@@ -10,7 +10,6 @@ OSError::OSError(const char *format, ...) noexcept {
 
 	strncpy(errorMessage + s, strerror(_errno), BUF_LEN - s);
 	errorMessage[BUF_LEN - 1] = 0;
-
 }
 
 const char* OSError::what() const noexcept {

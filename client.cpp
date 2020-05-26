@@ -1,4 +1,5 @@
 #include "client.h"
+#include <string>
 
 Client::Client() {
 	finish = false;
@@ -27,9 +28,9 @@ void Client::run() {
 			}
 			free(message);
 		} else {
-			std::cout << "Error: comando inválido. Escriba AYUDA para obtener ayuda" << std::endl;
+			std::cout << "Error: comando inválido. "
+			"Escriba AYUDA para obtener ayuda" << std::endl;
 		}
-
 	}
 }
 

@@ -12,7 +12,6 @@ class Client {
 		~Client();
 		void connect(const char *host, const char  *port);
 		void run();
-	
 };
 
 #endif

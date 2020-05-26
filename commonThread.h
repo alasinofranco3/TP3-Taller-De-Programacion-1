@@ -4,11 +4,12 @@
 #include <iostream>
 #include <thread>
 #include <unistd.h>
+#include <atomic>
 
 class Thread {
 	private:
 		std::thread thread;
-
+		std::atomic<bool> deathState;
 	public:
 		Thread();
         Thread(Thread&& other);
@@ -23,6 +24,8 @@ class Thread {
 
         //Habilita el movimiento
         Thread& operator=(Thread&& other);
+
+        bool isDead() const;
 };
 
 

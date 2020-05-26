@@ -42,19 +42,19 @@ Socket::Socket(int skt) {
 }
 
 Socket::~Socket() {
-	//std::cout << "Se llama al destructor del Socket: "<< skt << std::endl;
-	shutdown(skt, SHUT_RDWR);
-	close(skt);
+	if (skt != -1) {
+		shutdown(skt, SHUT_RDWR);
+		::close(skt);
+	}
+	skt = -1;
 }
 
 Socket::Socket(Socket&& other) noexcept: skt(other.skt) {
 	other.skt = -1;
 }
 
-Socket& Socket::operator=(Socket&& other) {
-	
+Socket& Socket::operator=(Socket&& other) {	
 	this->skt = std::move(other.skt);
-	//std::cout << "El skt :" << this->skt << "es cambiado por:" << other.skt << std::endl;
 	other.skt = -1;
     return *this;
 }
@@ -125,7 +125,8 @@ void Socket::connect(const char *host, const char *port) {
 	freeaddrinfo(results);
 
 	if (connected == false) {
-		throw OSError("No se pudo conectar el socket, se acabaron las direcciones validas");
+		throw OSError("No se pudo conectar el socket, "
+			"se acabaron las direcciones validas");
 	}
 }
 
@@ -184,4 +185,13 @@ int Socket::recv(char *buffer, int size) const {
 	
 	if (skt_closed) return 0; 
 	return received;
+}
+
+void Socket::close() {
+	std::cout << "cerrando el acceptador" << std::endl;
+	::close(skt);	
+}
+
+void Socket::shutDown() {
+	shutdown(skt, SHUT_RDWR);
 }

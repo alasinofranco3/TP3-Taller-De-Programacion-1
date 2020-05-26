@@ -1,14 +1,22 @@
 #ifndef SERVER_H
 #define SERVER_H 
-/*
+
+#include "commonAcceptorSocket.h"
+#include <string>
+#include <vector>
+
 class Server {
 	private:
-		Socket acep;
-		std::list<Socket> *clients;
+		AcceptorSocket acceptor;
+		//std::list<std::string> *answers;
+		ProtectedCounter winners, losers;
+		void printResults() const;
 	public:
-		Server(std::list<Socket> *clients);
+		explicit Server(std::vector<std::string> *answers);
+		void bindAndListen(const char *port, int size);
+		void run();
+		bool isClosed() const;
 		~Server();
-	
 };
-*/
+
 #endif

@@ -16,7 +16,6 @@ class OSError : public std::exception {
 		explicit OSError(const char * format, ...) noexcept;
 		virtual const char *what() const noexcept;
 		virtual ~OSError() noexcept;
-	
 };
 
 #endif
