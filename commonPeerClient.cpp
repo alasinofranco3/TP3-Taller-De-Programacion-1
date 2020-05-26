@@ -38,7 +38,7 @@ void PeerClient::processNumber() {
 }
 
 void PeerClient::run() {
-	while (!finish) {
+	while (!finish && !deathState) {
 		char command [1];
 		protocol.recvCommand(command);
 
@@ -48,7 +48,7 @@ void PeerClient::run() {
 			"automáticamente​ \n\t​XXX: Número de 3 cifras a ser enviado al "
 			"servidor para adivinar el número secreto");
 		} else if (command[0] == 's') {
-			protocol.sendString("PERDISTE");
+			protocol.sendString("Perdiste");
 			finish = true;
 			//Tengo sobrecargado el operador()
 			//del protected counter para que incremente
@@ -57,6 +57,7 @@ void PeerClient::run() {
 			this->processNumber();
 		}
 	}
+	deathState = true;
 }
 
 PeerClient::~PeerClient() {}

@@ -11,7 +11,6 @@ Thread::Thread(Thread&& other) {
 
 void Thread::start() {
 	thread = std::thread(&Thread::run, this);
-	deathState = true;
 }
 
 void Thread::join() {
@@ -21,6 +20,10 @@ void Thread::join() {
 Thread& Thread::operator=(Thread&& other) {
 	this->thread = std::move(other.thread);
     return *this;
+}
+
+void Thread::stop() {
+	deathState = true;
 }
 
 bool Thread::isDead() const {

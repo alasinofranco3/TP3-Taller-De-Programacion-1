@@ -9,12 +9,14 @@
 class Thread {
 	private:
 		std::thread thread;
+	protected:
 		std::atomic<bool> deathState;
 	public:
 		Thread();
         Thread(Thread&& other);
 		void start();
 		void join();
+		void stop();
 		virtual void run() = 0;
 		virtual ~Thread();
 
