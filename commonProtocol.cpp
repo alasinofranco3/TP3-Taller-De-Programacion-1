@@ -1,5 +1,6 @@
 #include "commonProtocol.h"
 #include <string>
+#include <utility>
 
 Protocol::Protocol() {}
 
@@ -133,7 +134,7 @@ char Protocol::processResults(int correct, int almost, const int tries) const {
 	//correspondiente a su valor numerico
 	std::string message;
 	if (correct == 3) {
-		this->sendString("GANASTE");
+		this->sendString("Ganaste");
 		return 'W';
 	} else if (correct > 0 && almost > 0) {
 		message.push_back(correct + 48);
@@ -154,7 +155,7 @@ char Protocol::processResults(int correct, int almost, const int tries) const {
 		this->sendString(message.c_str());
 		return 'N';
 	} else {
-		this->sendString("PERDISTE");
+		this->sendString("Perdiste");
 		return 'L';
 	}
 }

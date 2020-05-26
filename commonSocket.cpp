@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include "commonSocket.h"
 #include "commonOSError.h"
+#include <utility>
 
 //FUNCIONES PRIVADAS
 void Socket::error_in_getaddrinfo(int status, Socket *skt) {
