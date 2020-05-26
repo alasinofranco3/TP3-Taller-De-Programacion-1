@@ -11,7 +11,8 @@ class ProtectedCounter {
 	public:
 		ProtectedCounter();
 		~ProtectedCounter();
-		void add(const int value);
+		//void add(const int value);
+		void operator()(const int value);
 		void print() const;
 		int get() const;
 };

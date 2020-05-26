@@ -12,17 +12,17 @@ void Server::bindAndListen(const char *port, int size) {
 
 void Server::run() {
 	acceptor.start();
-	std::cout << "Lanzado thread aceptador" << std::endl;
+	//std::cout << "Lanzado thread aceptador" << std::endl;
 	char command; 
-	std::cout << "ingrese un comando" << std::endl;
+	//std::cout << "ingrese un comando" << std::endl;
 	std::cin >> command;
 	while (command != 'q') {
 		std::cin >> command;
 	}
-	std::cout << "recibi una q procedo a terminar" << std::endl;
+	//std::cout << "recibi una q procedo a terminar" << std::endl;
 	acceptor.close();
 	acceptor.join();
-	std::cout << "Se joineo el aceptador correctamente" << std::endl;
+	//std::cout << "Se joineo el aceptador correctamente" << std::endl;
 	this->printResults();
 }
 

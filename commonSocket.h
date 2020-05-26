@@ -25,6 +25,7 @@ class Socket {
 
 		void connect(const char  *host, const char  *port);
 
+		//Se devuelve un socket por movimiento
 		Socket accept();
 
 		/*Reactiva una direccion en caso de que esta estuviese en TIME WAIT */

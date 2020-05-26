@@ -22,16 +22,16 @@ void AcceptorSocket::run() {
 	unsigned int index = 0;
 
 	while (!finish) {
-	std::cout << "aceptador debe terminar? "<< finish << std::endl;
+	//std::cout << "aceptador debe terminar? "<< finish << std::endl;
 		//Socket peerSkt = skt.accept();
 		std::string answer = answers->at(index);
-		std::cout << "esperando aceptar un cliente" << std::endl;
+		//std::cout << "esperando aceptar un cliente" << std::endl;
 		try {
 			Socket clientSkt = skt.accept(); //PUEDE FALLAR VER QUE HACER EN ESE CASO
-			std::cout << "Acpete un cliente" << std::endl;
+			//std::cout << "Acpete un cliente" << std::endl;
 			Thread *t = new PeerClient(std::move(clientSkt), answer, winners, losers);
 			t->start();
-			std::cout << "Lance el peer client" << std::endl;
+			//std::cout << "Lance el peer client" << std::endl;
 			clients.push_back(t);
 
 			index ++;
@@ -60,7 +60,7 @@ void AcceptorSocket::run() {
 		clients[i]->join();
 		delete clients[i];
 	}
-	std::cout << "aceptador termino de correr" << std::endl;	
+	//std::cout << "aceptador termino de correr" << std::endl;	
 }
 
 void AcceptorSocket::close() {

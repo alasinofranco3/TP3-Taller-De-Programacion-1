@@ -12,19 +12,19 @@
 class AcceptorSocket : public Thread{
 	private:
 		std::atomic<bool> finish; // QUIZAS DEBERIA SER VARIABLE ATOMICA
-		Socket skt;
 		std::vector<Thread*> clients; // QUIZAS DEBERIAN SER THREADS
 		std::vector<std::string> *answers;
+		Socket skt;
 		ProtectedCounter *winners, *losers;
 	public:
 		AcceptorSocket();
 		AcceptorSocket(ProtectedCounter *w, ProtectedCounter *l, 
 			std::vector<std::string> *answers);
 		~AcceptorSocket();
-		virtual void run() override;
 		void bindAndListen(const char *port, int size);
 		void close();
 		bool isClosed() const;
+		virtual void run() override;
 		//Sobreescribo el operador igual para que me permita
 		//copiar las referencias a los contadores y a la lista de
 		//respuestas solamente.

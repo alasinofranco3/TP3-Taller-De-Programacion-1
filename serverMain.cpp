@@ -30,7 +30,7 @@ int main(int argc, char const *argv[]) {
 		server.run();
 	} catch(const OSError &e) {
 		if (!server.isClosed()) {
-			return 1;
+			return ERROR;
 		} 
 	} catch(const std::exception &e) {
 		return 1;

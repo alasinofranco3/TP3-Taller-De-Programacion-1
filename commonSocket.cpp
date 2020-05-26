@@ -188,7 +188,7 @@ int Socket::recv(char *buffer, int size) const {
 }
 
 void Socket::close() {
-	std::cout << "cerrando el acceptador" << std::endl;
+	//std::cout << "cerrando el acceptador" << std::endl;
 	::close(skt);	
 }
 

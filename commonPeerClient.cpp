@@ -22,9 +22,13 @@ void PeerClient::processNumber() {
 		if (result == 'W' || result == 'L') {
 			finish = true;
 			if (result == 'W') {
-				winners->add(1);
+				//Tengo sobrecargado el operador()
+				//del protected counter para que incremente
+				(*winners)(1);
 			} else {
-				losers->add(1);
+				//Tengo sobrecargado el operador()
+				//del protected counter para que incremente
+				(*losers)(1);
 			}	
 		}	
 	} else {
@@ -45,7 +49,9 @@ void PeerClient::run() {
 		} else if (command[0] == 's') {
 			protocol.sendString("PERDISTE");
 			finish = true;
-			losers->add(1);
+			//Tengo sobrecargado el operador()
+			//del protected counter para que incremente
+			(*losers)(1);
 		} else {
 			this->processNumber();
 		}

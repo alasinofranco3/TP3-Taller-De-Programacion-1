@@ -3,8 +3,14 @@
 ProtectedCounter::ProtectedCounter() {
 	counter = 0;
 }	
-
+/*
 void ProtectedCounter::add(const int value) {
+	std::unique_lock<std::mutex> lk(mutex);	
+	counter += value;
+}
+*/
+
+void ProtectedCounter::operator()(const int value) {
 	std::unique_lock<std::mutex> lk(mutex);	
 	counter += value;
 }
