@@ -38,7 +38,7 @@ void PeerClient::processNumber() {
 }
 
 void PeerClient::run() {
-	while (!finish /*&& !deathState*/) {
+	while (!finish) {
 		char command [1];
 		protocol.recvCommand(command);
 
