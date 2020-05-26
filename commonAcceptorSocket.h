@@ -11,8 +11,8 @@
 
 class AcceptorSocket : public Thread{
 	private:
-		std::atomic<bool> finish; // QUIZAS DEBERIA SER VARIABLE ATOMICA
-		std::vector<Thread*> clients; // QUIZAS DEBERIAN SER THREADS
+		std::atomic<bool> finish;
+		std::vector<Thread*> clients;
 		std::vector<std::string> *answers;
 		Socket skt;
 		ProtectedCounter *winners, *losers;

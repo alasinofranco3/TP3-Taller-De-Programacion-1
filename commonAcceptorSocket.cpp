@@ -10,7 +10,6 @@ AcceptorSocket::AcceptorSocket() {
 
 AcceptorSocket::AcceptorSocket(ProtectedCounter *w, ProtectedCounter *l, 
 	std::vector<std::string> *answers) {
-	//finish = false;
 	winners = w; 
 	losers = l; 
 	this->answers = answers;
@@ -23,16 +22,11 @@ void AcceptorSocket::run() {
 	unsigned int index = 0;
 
 	while (!finish) {
-	//std::cout << "aceptador debe terminar? "<< finish << std::endl;
-		//Socket peerSkt = skt.accept();
 		std::string answer = answers->at(index);
-		//std::cout << "esperando aceptar un cliente" << std::endl;
 		try {
-			Socket clientSkt = skt.accept(); //PUEDE FALLAR VER QUE HACER EN ESE CASO
-			//std::cout << "Acpete un cliente" << std::endl;
+			Socket clientSkt = skt.accept();
 			Thread *t = new PeerClient(std::move(clientSkt), answer, winners, losers);
 			t->start();
-			//std::cout << "Lance el peer client" << std::endl;
 			clients.push_back(t);
 
 			index ++;
@@ -60,20 +54,13 @@ void AcceptorSocket::run() {
 	for (unsigned int i = 0; i < clients.size(); i++) {
 		clients[i]->join();
 		delete clients[i];
-	}
-	
-	//deathState = true;	
+	}	
 }
 
 void AcceptorSocket::stop() {
 	finish = true;
 	skt.shutDown();
 	skt.close();
-/*
-	for (unsigned int i = 0; i < clients.size(); i++) {
-		clients[i]->stop();
-	}
-	*/
 }
 
 bool AcceptorSocket::isClosed() const {

@@ -6,12 +6,9 @@
 #include <string>
 #include <vector>
 
-int main(int argc, char const *argv[]) {
-	//ProtectedCounter winners, losers;
-	
+int main(int argc, char const *argv[]) {	
 	//VERIFICO QUE LOS PARAMETROS PASADOS SEAN CORRECTOS
 	if (argv[1] == NULL || argv[2] == NULL) {
-		//SEGUN CONSIGNA DEBERIA IMPRIMIR POR LA SALIDA DE ERROR
 		std::cout << "Error: argumentos invalidos." << std::endl;
 		return ERROR;
 	}
@@ -35,6 +32,7 @@ int main(int argc, char const *argv[]) {
 	} catch(const std::exception &e) {
 		return 1;
 	}
+	//FIN DE PROCESO
 
 	return 0;
 }

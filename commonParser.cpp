@@ -18,13 +18,11 @@ int Parser::run() {
 
 	while (std::getline(file, line)) {
 		if (sameDigitNumber(line)) {
-			//SEGUN CONSIGNA DEBERIA IMPRIMIR POR LA SALIDA DE ERROR
 			std::cout<<"Error: formato de los números inválidos"<<std::endl;
 			return ERROR;
 		}
 		number = std::stoi(line);
 		if (number < 100 || number > 999) {
-			//SEGUN CONSIGNA DEBERIA IMPRIMIR POR LA SALIDA DE ERROR
 			std::cout <<"Error: archivo con números fuera de rango"<<std::endl;
 			return ERROR;
 		}

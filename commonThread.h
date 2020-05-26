@@ -10,10 +10,7 @@ class Thread {
 	private:
 		std::thread thread;
 		std::atomic<bool> deathState;
-	/*	
-	protected:
-		std::atomic<bool> deathState;
-	*/
+	
 	public:
 		Thread();
         Thread(Thread&& other);

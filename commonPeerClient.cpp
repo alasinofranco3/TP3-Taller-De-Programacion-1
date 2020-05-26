@@ -61,7 +61,6 @@ void PeerClient::run() {
 
 void PeerClient::stop() {
 	finish = true;
-	//protocol.stop();
 }
 
 PeerClient::~PeerClient() {}

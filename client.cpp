@@ -12,7 +12,6 @@ void Client::connect(const char *host, const char  *port) {
 void Client::run() {
 	while (!finish) {
 		std::string command;
-		//std::cout << "Ingrese un comando" << std::endl;
 		std::cin >> command;
 		
 		if (protocol.validCommand(command)) {

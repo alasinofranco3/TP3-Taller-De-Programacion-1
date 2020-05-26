@@ -164,7 +164,6 @@ Protocol::~Protocol() {}
 
 Protocol& Protocol::operator=(Protocol&& other) {
 	this->skt = std::move(other.skt);
-	//other.skt = -1;
     return *this;
 }
 

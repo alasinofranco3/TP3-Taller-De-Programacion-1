@@ -8,7 +8,6 @@
 class Server {
 	private:
 		AcceptorSocket acceptor;
-		//std::list<std::string> *answers;
 		ProtectedCounter winners, losers;
 		void printResults() const;
 	public:

@@ -10,8 +10,6 @@
 //FUNCIONES PRIVADAS
 void Socket::error_in_getaddrinfo(int status, Socket *skt) {
 	if (status != 0) { 
-		//MENSAJE AGREGARLO AL LANZAR LA EXCEPCION CREADA  		
-  		//printf("Error in getaddrinfo: %s\n", gai_strerror(status));
       	throw OSError("Error en getaddrinfo: %s\n", gai_strerror(status));
    	}
 }
@@ -32,7 +30,6 @@ Socket::Socket() {
 	skt = socket(hints.ai_family, hints.ai_socktype, hints.ai_protocol);
 
 	if (skt == -1) {
-		//printf("Error in socket():%s\n", std::strerror(errno));
 		throw OSError("Error en cosntructor del socket");
 	}	
 }
@@ -85,7 +82,6 @@ void Socket::bindAndListen(const char *port, int size) {
 	freeaddrinfo(results);
 	
 	if (success == false) {
-		//MENSAJE AGREGARLO AL LANZAR LA EXCEPCION CREADA
 		OSError("Error en bindAndListen(), se acabaron las direcciones validas");
 	}	
 }
@@ -95,8 +91,6 @@ void Socket::reset() {
 	int val = 1;
 	status = setsockopt(skt, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
     if (status == -1) {
-		//MENSAJE AGREGARLO AL LANZAR LA EXCEPCION CREADA
-		//printf("Error in reset: %s\n", strerror(errno));
     	throw OSError("Error al resetear la direccion del socket");
     }
 }
@@ -136,7 +130,6 @@ Socket Socket::accept() {
 	auxSkt = ::accept(skt, nullptr, nullptr);
 
 	if (auxSkt == -1) {
-		//printf("Error in accept: %s\n", strerror(errno));
     	throw OSError("Error del socket al aceptar un cliente");
 	}
 
@@ -155,7 +148,6 @@ int Socket::send(const char *message, int len) const {
 		if (result == 0) {  //SI RESULT VALE CERO NOS CERRARON EL SKT
 			remote_skt_closed = true;
 		} else if (result == -1) {
-			//printf("Error in send: %s\n", strerror(errno));
 			throw OSError("Error al enviar a traves del socket");
 		} else {
 			sent += result;
@@ -167,7 +159,6 @@ int Socket::send(const char *message, int len) const {
 }
 
 int Socket::recv(char *buffer, int size) const {
-	//std::cout << "Recibiendo del skt" << skt << std::endl;
 	int received = 0;
 	int result;
 	bool skt_closed = false;
@@ -175,7 +166,6 @@ int Socket::recv(char *buffer, int size) const {
 	while (received < size && skt_closed == false) {
 		result = ::recv(skt, &buffer[received], (size - received), 0);
 		if (result == -1) {
-			//printf("Error in recv: %s\n", strerror(errno));
     		throw OSError("Error al recibir a traves del socket");
 		} else if (result == 0) { //SI received VALE CERO NOS CERRARON EL SKT
 			skt_closed = true;
@@ -189,7 +179,6 @@ int Socket::recv(char *buffer, int size) const {
 }
 
 void Socket::close() {
-	//std::cout << "cerrando el acceptador" << std::endl;
 	::close(skt);	
 }
 
