@@ -27,8 +27,8 @@ void Server::run() {
 }
 
 void Server::printResults() const {
-	std::cout << "Estadísticas:​ \n\t​Ganadores:  " << winners.get(); 
-	std::cout << "\n\t​Perdedores:​ ​" << losers.get() << std::endl;
+	std::cout << "Estadísticas: \n\tGanadores:  " << winners.get(); 
+	std::cout << "\n\tPerdedores: " << losers.get() << std::endl;
 }
 
 bool Server::isClosed() const {

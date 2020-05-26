@@ -62,8 +62,7 @@ void AcceptorSocket::run() {
 		delete clients[i];
 	}
 	
-	//deathState = true;
-	
+	//deathState = true;	
 }
 
 void AcceptorSocket::stop() {
