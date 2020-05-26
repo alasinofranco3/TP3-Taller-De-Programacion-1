@@ -41,12 +41,11 @@ void PeerClient::run() {
 	while (!finish) {
 		char command [1];
 		protocol.recvCommand(command);
-
 		if (command[0] == 'h') {
-			protocol.sendString("Comandos válidos:​\n\t​AYUDA: despliega la"
-			" lista de comandos válidos​\n\t​RENDIRSE: pierde el juego "
-			"automáticamente​\n\t​XXX: Número de 3 cifras a ser enviado al "
-			"servidor para adivinar el número secreto");
+			protocol.sendString("Comandos válidos:\n\tAYUDA: despliega la"
+				" lista de comandos válidos\n\tRENDIRSE: pierde el juego "
+				"automáticamente\n\tXXX: Número de 3 cifras a ser enviado "
+				"al servidor para adivinar el número secreto");
 		} else if (command[0] == 's') {
 			protocol.sendString("Perdiste");
 			finish = true;
