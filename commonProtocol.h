@@ -19,8 +19,8 @@ class Protocol {
 		~Protocol();
 		void connect(const char  *host, const char  *port);
 		//Verifica si el comando pasado es valido
-		bool validCommand(const std::string command) const;
 		bool validNumber(unsigned short int number) const;
+		bool validCommand(const std::string command) const;
 		void sendCommand(const std::string command) const; 
 		void sendString(const char* string) const;
 		void recvCommand(char* buffer) const;

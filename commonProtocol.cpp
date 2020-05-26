@@ -84,7 +84,8 @@ void Protocol::recvCommand(char* buffer) const {
 unsigned short int Protocol::recvNumber() const {
 	char numberStr[2]; //Es de dos bytes
 	skt.recv(numberStr, 2); //Los numeros vienen en 2 bytes
-	unsigned short int number = *(unsigned short int *)numberStr;
+	char* aux = numberStr;
+	 unsigned short int number = *(unsigned short int *)aux;
 	//Lo paso a mi endianness local
 	number = ntohs(number);
 	return number;
@@ -94,8 +95,8 @@ unsigned int Protocol::recvStringSize() const{
 	//El tamanio del string se pasa en un int
 	char messageSizeStr [sizeof(int)];
 	skt.recv(messageSizeStr, sizeof(int));
-	
-	unsigned int messageSize = *(unsigned int*)messageSizeStr;
+	char* aux = messageSizeStr;
+	unsigned int messageSize = *(unsigned int*)aux;
 	//Lo paso all endianness local
 	messageSize = ntohl(messageSize);
 	return messageSize;
