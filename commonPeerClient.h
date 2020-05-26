@@ -21,6 +21,7 @@ class PeerClient : public Thread {
 		PeerClient(Socket&& socket, std::string answer, 
 			ProtectedCounter *w, ProtectedCounter *l);
 		virtual void run() override;
+		virtual void stop() override;
 		~PeerClient();
 };
 

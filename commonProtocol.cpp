@@ -167,3 +167,8 @@ Protocol& Protocol::operator=(Protocol&& other) {
 	//other.skt = -1;
     return *this;
 }
+
+void Protocol::stop() {
+	skt.shutDown();
+	skt.close();
+}

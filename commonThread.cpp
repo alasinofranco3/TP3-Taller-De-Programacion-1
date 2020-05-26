@@ -22,10 +22,6 @@ Thread& Thread::operator=(Thread&& other) {
     return *this;
 }
 
-void Thread::stop() {
-	deathState = true;
-}
-
 bool Thread::isDead() const {
 	return deathState;
 }

@@ -61,18 +61,20 @@ void AcceptorSocket::run() {
 		clients[i]->join();
 		delete clients[i];
 	}
-	deathState = true;
-	//std::cout << "aceptador termino de correr" << std::endl;	
+	
+	//deathState = true;
+	
 }
 
-void AcceptorSocket::close() {
+void AcceptorSocket::stop() {
 	finish = true;
 	skt.shutDown();
 	skt.close();
-
+/*
 	for (unsigned int i = 0; i < clients.size(); i++) {
 		clients[i]->stop();
 	}
+	*/
 }
 
 bool AcceptorSocket::isClosed() const {

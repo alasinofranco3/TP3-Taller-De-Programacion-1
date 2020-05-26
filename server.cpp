@@ -20,7 +20,7 @@ void Server::run() {
 		std::cin >> command;
 	}
 	//std::cout << "recibi una q procedo a terminar" << std::endl;
-	acceptor.close();
+	acceptor.stop();
 	acceptor.join();
 	//std::cout << "Se joineo el aceptador correctamente" << std::endl;
 	this->printResults();

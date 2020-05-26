@@ -22,8 +22,8 @@ class AcceptorSocket : public Thread{
 			std::vector<std::string> *answers);
 		~AcceptorSocket();
 		void bindAndListen(const char *port, int size);
-		void close();
 		bool isClosed() const;
+		virtual void stop() override;
 		virtual void run() override;
 		//Sobreescribo el operador igual para que me permita
 		//copiar las referencias a los contadores y a la lista de

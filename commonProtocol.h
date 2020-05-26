@@ -34,8 +34,8 @@ class Protocol {
 		//si no lo hizo y 'L' si el jugador perdio;
 		//Ademas envia el mensaje correspondiente
 		char processResults(int correct, int almost, const int tries) const;
-		
 		Protocol& operator=(Protocol &&other);
+		void stop();
 };
 
 #endif
