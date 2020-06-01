@@ -18,14 +18,18 @@ void Client::run() {
 			//enviar al servidor el comando adecuado
 			protocol.sendCommand(command);
 			//recibir respuesta del servidor
-			unsigned int messageSize = protocol.recvStringSize();
+			uint32_t messageSize = protocol.recvStringSize();
 			char *message = (char*)malloc(messageSize + 1);
+			//std::string message;
 			protocol.recvString(message, messageSize);
 			std::cout << message << std::endl;
 			if (strcmp(message, "Ganaste") == 0 || strcmp(message, "Perdiste") == 0) {
 				finish = true;
 			}
 			free(message);
+			/*if (message == "Ganaste" || message == "Perdiste") {
+				finish = true;
+			}*/
 		} else {
 			std::cout << "Error: comando inválido. "
 			"Escriba AYUDA para obtener ayuda" << std::endl;

@@ -10,16 +10,18 @@ void ProtectedCounter::add(const int value) {
 }
 */
 
-void ProtectedCounter::operator()(const int value) {
+void ProtectedCounter::operator()() {
 	std::unique_lock<std::mutex> lk(mutex);	
-	counter += value;
+	counter ++;
 }
 
-void ProtectedCounter::print() const {
+void ProtectedCounter::print() {
+	std::unique_lock<std::mutex> lk(mutex);	
 	std::cout << "Puntos de Beneficio acumulados: " << counter << std::endl;
 }
 
-int ProtectedCounter::get() const {
+int ProtectedCounter::get() {
+	std::unique_lock<std::mutex> lk(mutex);	
 	return counter;
 }
 

@@ -12,9 +12,9 @@ class ProtectedCounter {
 		ProtectedCounter();
 		~ProtectedCounter();
 		//void add(const int value);
-		void operator()(const int value);
-		void print() const;
-		int get() const;
+		void operator()();
+		void print();
+		int get();
 };
 
 #endif

@@ -19,7 +19,7 @@ void AcceptorSocket::bindAndListen(const char *port, int size) {
 }
 
 void AcceptorSocket::run() {
-	unsigned int index = 0;
+	uint32_t index = 0;
 
 	while (!finish) {
 		std::string answer = answers->at(index);
@@ -33,9 +33,10 @@ void AcceptorSocket::run() {
 			if (index == answers->size()) {
 				index = 0;
 			}
-
+			this->eliminateDeadClients(this->clients);
+			/*
 			std::vector<Thread*> tmp;
-			for (unsigned int i = 0; i < clients.size(); i++) {
+			for (uint32_t i = 0; i < clients.size(); i++) {
 				if (clients[i]->isDead()) {
 					clients[i]->join();
 					delete clients[i];
@@ -44,6 +45,7 @@ void AcceptorSocket::run() {
 				}
 			}
 			clients.swap(tmp);
+			*/
 		} catch(const OSError &e) {
 			if (!finish) {
 				throw OSError("Error del socket al aceptar un cliente");
@@ -51,10 +53,23 @@ void AcceptorSocket::run() {
 		}
 	}
 
-	for (unsigned int i = 0; i < clients.size(); i++) {
+	for (uint32_t i = 0; i < clients.size(); i++) {
 		clients[i]->join();
 		delete clients[i];
 	}	
+}
+
+void AcceptorSocket::eliminateDeadClients(std::vector<Thread*> clients) {
+	std::vector<Thread*> tmp;
+	for (uint32_t i = 0; i < clients.size(); i++) {
+		if (clients[i]->isDead()) {
+			clients[i]->join();
+			delete clients[i];
+		} else {
+			tmp.push_back(clients[i]);
+		}
+	}
+	clients.swap(tmp);
 }
 
 void AcceptorSocket::stop() {

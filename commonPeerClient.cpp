@@ -14,7 +14,7 @@ PeerClient::PeerClient(Socket&& socket, std::string answer,
 
 void PeerClient::processNumber() {
 	tries --;
-	unsigned short int number = protocol.recvNumber();
+	uint16_t number = protocol.recvNumber();
 	if (protocol.validNumber(number)) {
 		int correct = 0;
 		int almost = 0;
@@ -25,11 +25,11 @@ void PeerClient::processNumber() {
 			if (result == 'W') {
 				//Tengo sobrecargado el operador()
 				//del protected counter para que incremente
-				(*winners)(1);
+				(*winners)();
 			} else {
 				//Tengo sobrecargado el operador()
 				//del protected counter para que incremente
-				(*losers)(1);
+				(*losers)();
 			}	
 		}	
 	} else {
@@ -51,7 +51,7 @@ void PeerClient::run() {
 			finish = true;
 			//Tengo sobrecargado el operador()
 			//del protected counter para que incremente
-			(*losers)(1);
+			(*losers)();
 		} else {
 			this->processNumber();
 		}

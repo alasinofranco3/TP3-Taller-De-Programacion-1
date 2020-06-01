@@ -33,8 +33,8 @@ int Parser::run() {
 
 bool Parser::sameDigitNumber(std::string number) {
 	bool result = false;
-	for (unsigned int i = 0; i < number.size() && result == false; i++) {
-		for (unsigned int j = 0; j < number.size() && result == false; j++) {
+	for (uint32_t i = 0; i < number.size() && result == false; i++) {
+		for (uint32_t j = 0; j < number.size() && result == false; j++) {
 			if (number[i] == number[j] && i != j) {
 				result = true;
 			}	

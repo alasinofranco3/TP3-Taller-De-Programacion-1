@@ -9,7 +9,7 @@ class Server {
 	private:
 		AcceptorSocket acceptor;
 		ProtectedCounter winners, losers;
-		void printResults() const;
+		void printResults();
 	public:
 		explicit Server(std::vector<std::string> *answers);
 		void bindAndListen(const char *port, int size);

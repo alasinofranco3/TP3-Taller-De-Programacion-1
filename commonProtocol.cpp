@@ -26,14 +26,14 @@ bool Protocol::validCommand(const std::string command) const {
 	}
 }
 
-bool Protocol::validNumber(unsigned short int number) const{
+bool Protocol::validNumber(uint16_t number) const{
 	if (number < 100 || number > 999 || repeatedDigitNumber(number)) {
 		return false;		
 	}
 	return true;
 }
 
-bool Protocol::repeatedDigitNumber(unsigned short int number) const{
+bool Protocol::repeatedDigitNumber(uint16_t number) const{
 	int firstDigit, secondDigit, ThirdDigit;
 	ThirdDigit = number % 10;
 	number /= 10; 
@@ -51,27 +51,30 @@ void Protocol::sendCommand(const std::string command) const {
 	} else if (command == "RENDIRSE") {
 		skt.send("s", 1);
 	} else {
-		//Paso el comando a entero
-		unsigned short int number = (unsigned short int)stoi(command);
-		number = htons(number); // Lo paso a big endian
-
-		char message [3]; //1 byte para el comando y dos mas para el numero
-		message [0] = 'n';
-		unsigned short int* p = (unsigned short int *)(message + 1);
-		*p = number;
-		//Envio el comando
-		skt.send(message, 3);
+		skt.send("n", 1);
+		this->sendNumber(command);
 	}
 }
 
+void Protocol::sendNumber(std::string command) const{
+	//Paso el comando a entero
+	uint16_t number = (uint16_t)stoi(command);
+	number = htons(number); // Lo paso a big endian
+	char message [2]; //1 byte para el comando y dos mas para el numero
+	uint16_t* p = (uint16_t *)(message);
+	*p = number;
+	//Envio el numero
+	skt.send(message, 2);
+}
+
 void Protocol::sendString(const char* string) const{
-	unsigned int stringLen = strlen(string);
+	uint32_t stringLen = strlen(string);
 	//ademas del string se envia un int con su longitud
 	char *message = (char*)malloc(stringLen + sizeof(int)); 
 	strncpy(message + 4, string, stringLen);
 	//Agregamos la longitud del string en big endian al mensaje
-	unsigned int *p = (unsigned int *)message;
-	unsigned int stringLenBigEndian = htonl(stringLen);
+	uint32_t *p = (uint32_t *)message;
+	uint32_t stringLenBigEndian = htonl(stringLen);
 	*p = stringLenBigEndian;
 	//enviamos el string
 	skt.send(message, stringLen + sizeof(int));
@@ -82,22 +85,22 @@ void Protocol::recvCommand(char* buffer) const {
 	skt.recv(buffer, 1); //El comando se envia en 1 byte
  }
 
-unsigned short int Protocol::recvNumber() const {
+uint16_t Protocol::recvNumber() const {
 	char numberStr[2]; //Es de dos bytes
 	skt.recv(numberStr, 2); //Los numeros vienen en 2 bytes
 	char* aux = numberStr;
-	 unsigned short int number = *(unsigned short int *)aux;
+	 uint16_t number = *(uint16_t *)aux;
 	//Lo paso a mi endianness local
 	number = ntohs(number);
 	return number;
 }
 
-unsigned int Protocol::recvStringSize() const{
-	//El tamanio del string se pasa en un int
-	char messageSizeStr [sizeof(int)];
-	skt.recv(messageSizeStr, sizeof(int));
+uint32_t Protocol::recvStringSize() const{
+	//El tamanio del string se pasa en un int de 4 bytes
+	char messageSizeStr [4];
+	skt.recv(messageSizeStr, 4);
 	char* aux = messageSizeStr;
-	unsigned int messageSize = *(unsigned int*)aux;
+	uint32_t messageSize = *(uint32_t*)aux;
 	//Lo paso all endianness local
 	messageSize = ntohl(messageSize);
 	return messageSize;
@@ -108,7 +111,7 @@ void Protocol::recvString(char* message, int size) const{
 	message[size] = '\0';
 }
 
-void Protocol::processNumber(unsigned short number, 
+void Protocol::processNumber(uint16_t number, 
 	std::string answer, int* c, int *a) const {
 	//Lo inicializo con 3 digitos cualesquiera,no tienen relevancia
 	std::string digits = "abc";
@@ -132,27 +135,24 @@ void Protocol::processNumber(unsigned short number,
 char Protocol::processResults(int correct, int almost, const int tries) const {
 	//A los enteros les sumo 48 para agregar al mensaje el simbolo ascii 
 	//correspondiente a su valor numerico
-	std::string message;
+
+	std::stringstream message;
 	if (correct == 3) {
 		this->sendString("Ganaste");
 		return 'W';
 	} else if (correct > 0 && almost > 0) {
-		message.push_back(correct + 48);
-		message += " bien, ";
-		message.push_back(almost + 48);
-		message += " regular";
+		message << correct << " bien, " << almost << " regular";
 	} else if (correct > 0) {
-		message.push_back(correct + 48); 
-		message += " bien";
+		message << correct << " bien";
 	} else if (almost > 0) {
-		message.push_back(almost + 48); 
-		message += " regular";
+		message << almost << " regular";
 	} else {
-		message += "3 mal";
+		message << "3 mal";
 	}
 
 	if (tries > 0) {
-		this->sendString(message.c_str());
+		std::string aux = message.str();
+		this->sendString(aux.c_str());
 		return 'N';
 	} else {
 		this->sendString("Perdiste");

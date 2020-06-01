@@ -16,6 +16,7 @@ class AcceptorSocket : public Thread{
 		std::vector<std::string> *answers;
 		Socket skt;
 		ProtectedCounter *winners, *losers;
+		void eliminateDeadClients(std::vector<Thread*> clients);
 	public:
 		AcceptorSocket();
 		AcceptorSocket(ProtectedCounter *w, ProtectedCounter *l, 
