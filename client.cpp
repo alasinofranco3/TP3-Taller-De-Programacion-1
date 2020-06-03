@@ -20,16 +20,20 @@ void Client::run() {
 			//recibir respuesta del servidor
 			uint32_t messageSize = protocol.recvStringSize();
 			char *message = (char*)malloc(messageSize + 1);
-			//std::string message;
 			protocol.recvString(message, messageSize);
-			std::cout << message << std::endl;
+			/*std::cout << message << std::endl;
 			if (strcmp(message, "Ganaste") == 0 || strcmp(message, "Perdiste") == 0) {
 				finish = true;
 			}
+			free(message);*/
+			
+			std::string aux(message);
 			free(message);
-			/*if (message == "Ganaste" || message == "Perdiste") {
+			std::cout << aux << std::endl;
+			if (aux == "Ganaste" || aux == "Perdiste") {
 				finish = true;
-			}*/
+			}
+
 		} else {
 			std::cout << "Error: comando inválido. "
 			"Escriba AYUDA para obtener ayuda" << std::endl;
