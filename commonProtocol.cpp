@@ -15,7 +15,7 @@ void Protocol::connect(const char  *host, const char  *port) {
 bool Protocol::validCommand(const std::string command) const {
 	try {
 		if (command != "AYUDA" && command != "RENDIRSE" && 
-			stoi(command) > (pow(2, 16) - 1)) {	
+			(stoi(command) > (pow(2, 16) - 1) || stoi(command) < 0)) {	
 			//comparamos el comando con el numero maximo que podemos 
 			//representar en 2 bytes, 2^16 - 1
 			return false;
